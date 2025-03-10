@@ -14,9 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 const CACHE_FILE = path.join(__dirname, "videosCache.json");
-const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+// CACHE_DURATION is no longer used since we don't refresh the cache automatically
+// const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
 
-// ✅ Function to Get Cached Videos
+// ✅ Function to Get Cached Videos (always serves if file exists)
 const getCachedVideos = () => {
     try {
         if (fs.existsSync(CACHE_FILE)) {
@@ -26,10 +27,8 @@ const getCachedVideos = () => {
                 return null;
             }
             const cacheData = JSON.parse(fileContent);
-            if (Date.now() - cacheData.timestamp < CACHE_DURATION) {
-                console.log("✅ Serving cached videos...");
-                return cacheData.videos;
-            }
+            console.log("✅ Serving cached videos...");
+            return cacheData.videos;
         }
     } catch (error) {
         console.error("❌ Error reading cache file:", error);
@@ -42,7 +41,7 @@ const saveVideosToCache = (videos) => {
     fs.writeFileSync(CACHE_FILE, JSON.stringify({ timestamp: Date.now(), videos }, null, 2));
 };
 
-// ✅ Scrape Function (Must Be Defined Before Calling setInterval)
+// ✅ Scrape Function
 const scrapeVideos = async () => {
     try {
         console.log("🔄 Updating video cache...");
@@ -128,6 +127,7 @@ app.get("/api/scrape-videos", async (req, res) => {
         return res.json({ videos: cachedVideos });
     }
 
+    // If there's no cached videos, scrape and serve new videos.
     const videos = await scrapeVideos();
     if (videos.length > 0) {
         res.json({ videos });
@@ -136,8 +136,8 @@ app.get("/api/scrape-videos", async (req, res) => {
     }
 });
 
-// ✅ Start Background Task for Periodic Scraping (Corrected)
-setInterval(scrapeVideos, CACHE_DURATION);
+// ✅ Removed the setInterval call to prevent auto-refreshing the cache
+// setInterval(scrapeVideos, CACHE_DURATION);
 
 // ✅ Root Route
 app.get("/", (req, res) => {
