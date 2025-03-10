@@ -1,23 +1,36 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { getCachedVideos, scrapeVideos } = require("./videoScraper");
-const shopifyRoutes = require("./shopifyServer");
+const { getCachedVideos, scrapeVideos } = require("./videoScraper"); // Import video scraper functions
+const shopifyRoutes = require("./shopifyServer"); // Import Shopify routes
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// API Routes
-app.use("/api", shopifyRoutes);
+// ✅ Video Scraper API Route
 app.get("/api/scrape-videos", async (req, res) => {
     const cachedVideos = getCachedVideos();
-    if (cachedVideos) return res.json({ videos: cachedVideos });
+    if (cachedVideos) {
+        return res.json({ videos: cachedVideos }); // Serve cached videos
+    }
 
     const videos = await scrapeVideos();
-    res.json({ videos });
+    if (videos.length > 0) {
+        res.json({ videos });
+    } else {
+        res.status(500).json({ error: "Failed to scrape videos" });
+    }
 });
 
-// Start Server
+// ✅ Shopify API Routes
+app.use("/api", shopifyRoutes);
+
+// ✅ Root Route (Health Check)
+app.get("/", (req, res) => {
+    res.send("🚀 Backend is running for Legend Cookhouse!");
+});
+
+// ✅ Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
