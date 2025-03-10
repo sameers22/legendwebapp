@@ -48,17 +48,10 @@ const scrapeVideos = async () => {
         console.log("🔄 Updating video cache...");
         const hashtag = "legendcookhouse";
         const browser = await puppeteer.launch({
-            executablePath: process.env.CHROME_BIN || "/usr/bin/google-chrome-stable",
-            headless: true,
-            args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-gpu",
-                "--disable-software-rasterizer",
-                "--single-process"
-            ],
-        });        
+            executablePath: process.env.CHROME_BIN || puppeteer.executablePath(),
+            headless: "new",
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        });
         const page = await browser.newPage();
         await page.setUserAgent(
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
