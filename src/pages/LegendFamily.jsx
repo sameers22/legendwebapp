@@ -8,7 +8,7 @@ const LegendFamily = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await fetch('http://localhost:5001/api/scrape-videos');
+                const response = await fetch('https://legendwebapp.onrender.com/api/scrape-videos');
                 if (!response.ok) {
                     throw new Error('Failed to fetch videos');
                 }
