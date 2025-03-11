@@ -9,7 +9,7 @@ const LegendFamily = () => {
         const fetchVideos = async () => {
             try {
                 console.log("Fetching videos from API...");
-                const response = await fetch("http://localhost:5001/api/scrape-videos");
+                const response = await fetch("https://legendwebapp.onrender.com/api/scrape-videos");
                 if (!response.ok) throw new Error("Failed to fetch videos from API");
 
                 const data = await response.json();
