@@ -420,173 +420,168 @@ const Menu = () => {
                 </div>
             ))}
 
-            <style jsx>{`
-                .menu-page {
-                    text-align: center;
-                    padding: 6rem 0rem 0rem;
-                    background: url(${backgroundImage}) no-repeat center center/cover;
-                    color: white;
-                    min-height: 100vh;
-                    width: 100vw;  /* Ensure it spans the entire viewport width */
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                }
-                .title {
-                    font-size: 2.5rem;
-                    color:rgb(255, 255, 255);
-                    font-weight: bold;
-                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-                }
-                .subtitle {
-                    color: #ddd;
-                    margin-bottom: 20px;
-                    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-                }
-                .menu-section {
-                    background: rgba(0, 0, 0, 0.85);
-                    padding: 20px;
-                    margin: 20px auto;
-                    max-width: 600px;
-                    border-radius: 10px;
-                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                }
-                .section-title {
-                    font-size: 1.8rem;
-                    color: #ffd700;
-                }
-                .menu-list {
-                    list-style: none;
-                    padding: 0;
-                }
-                .menu-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 10px 15px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-                    position: relative;
-                    transition: background 0.3s ease-in-out;
-                    cursor: pointer;
-                }
-                .menu-item:hover {
-                    background: rgba(255, 255, 255, 0.1);
-                }
-                .price {
-                    font-weight: bold;
-                    color: #ffdd57;
-                }
-                .item-name {
-                    flex: 1;
-                    text-align: left;
-                }
-                .item-details {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    width: 300px;
-                    background: rgba(0, 0, 0, 0.8);
-                    padding: 10px;
-                    border-radius: 5px;
-                    color: white;
-                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                    text-align: left;
-                }
-                .dish-image {
-                    width: 100%;
-                    max-width: 280px;
-                    height: auto;
-                    border-radius: 5px;
-                    margin-bottom: 10px;
-                }
-                .item-details.left {
-                    left: -320px;
-                }
-                .item-details.right {
-                    left: 100%;
-                }
-                .order-buttons {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 5px;
-                    margin-top: 10px;
-                }
-                .order-btn {
-                    background: #ffd700;
-                    color: black;
-                    border: none;
-                    padding: 8px 12px;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    transition: background 0.3s;
-                    text-align: center;
-                    display: inline-block;
-                    text-decoration: none;
-                    font-weight: bold;
-                }
-                .order-btn:hover {
-                    background: #e6c200;
-                }
-                .doordash {
-                    background: #ff2e2e;
-                    color: white;
-                    font-size: 1rem;
-                }
-                .doordash:hover {
-                    background: #cc2424;
-                }
-                .small-buttons {
-                    display: flex;
-                    gap: 5px;
-                    justify-content: center;
-                }
-                .small-order-btn {
-                    background: #00a000;
-                    color: white;
-                    border: none;
-                    padding: 6px 10px;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    transition: background 0.3s;
-                    text-align: center;
-                    display: inline-block;
-                    text-decoration: none;
-                    font-size: 0.9rem;
-                    width: 50%;
-                }
-                .ubereats {
-                    background: #00a000;
-                }
-                .ubereats:hover {
-                    background: #008a00;
-                }
-                .grubhub {
-                    background: #ff6600;
-                }
-                .grubhub:hover {
-                    background: #cc5500;
-                }
-                @media (max-width: 900px) {
-                    .item-details {
-                        position: relative;
-                        left: auto;
-                        top: auto;
-                        transform: none;
-                        width: 100%;
-                        margin-top: 10px;
-                        text-align: center;
-                    }
-                    .small-buttons {
-                        flex-direction: row;
-                        justify-content: center;
-                        gap: 10px;
-                    }
-                    .small-order-btn {
-                        width: auto;
-                        padding: 6px 10px;
-                    }
-                }
-            `}</style>
+<style jsx>{`
+    .menu-page {
+        text-align: center;
+        padding: 6rem 0rem 0rem;
+        background: url(${backgroundImage}) no-repeat center center/cover;
+        color: white;
+        min-height: 100vh;
+        width: 100vw;
+        position: absolute;
+        left: 0;
+        right: 0;
+    }
+    .title {
+        font-size: 2.5rem;
+        color: white;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .subtitle {
+        color: #ddd;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    .menu-section {
+        background: rgba(0, 0, 0, 0.85);
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 700px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .section-title {
+        font-size: 1.8rem;
+        color: #ffd700;
+    }
+    .menu-list {
+        list-style: none;
+        padding: 0;
+    }
+    .menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        transition: background 0.3s ease-in-out;
+        cursor: pointer;
+        position: relative;
+    }
+    .menu-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    .price {
+        font-weight: bold;
+        color: #ffdd57;
+        padding: 10px 10px;
+    }
+    .item-name {
+        flex: 1;
+        text-align: left;
+    }
+    .item-details {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 10px;
+        border-radius: 5px;
+        color: white;
+        text-align: left;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .dish-image {
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    .order-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 10px;
+    }
+    .order-btn {
+        background: #ffd700;
+        color: black;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+        text-align: center;
+        display: inline-block;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .order-btn:hover {
+        background: #e6c200;
+    }
+    .doordash {
+        background: #ff2e2e;
+        color: white;
+        font-size: 1rem;
+    }
+    .doordash:hover {
+        background: #cc2424;
+    }
+    .small-buttons {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+    }
+    .small-order-btn {
+        background: #00a000;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+        text-align: center;
+        display: inline-block;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .ubereats {
+        background: #00a000;
+    }
+    .ubereats:hover {
+        background: #008a00;
+    }
+    .grubhub {
+        background: #ff6600;
+    }
+    .grubhub:hover {
+        background: #cc5500;
+    }
+    @media (max-width: 900px) {
+        .menu-page {
+            padding: 4rem 1rem 0rem;
+        }
+        .menu-section {
+            width: 90%;
+            padding: 15px;
+        }
+        .menu-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+    @media (max-width: 600px) {
+        .title {
+            font-size: 1.8rem;
+        }
+        .section-title {
+            font-size: 1.5rem;
+        }
+    }
+`}</style>
+
+
         </div>
     );
 };

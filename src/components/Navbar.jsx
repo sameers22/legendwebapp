@@ -92,19 +92,20 @@ const Navbar = () => {
                     width: 100%;
                 }
                 .logo-img {
-                    height: 80px; /* Large logo */
+                    height: 80px;
                     transition: all 0.3s ease-in-out;
                 }
                 .small-logo {
-                    height: 50px; /* Shrinks when scrolling */
+                    height: 50px;
                 }
                 .menu-button {
                     display: none;
-                    font-size: 5rem;
+                    font-size: 2.5rem;
                     background: none;
                     border: none;
                     cursor: pointer;
-                    color: #d35400;
+                    color: yellow;
+                    z-index: 1100;
                 }
                 .nav-links {
                     list-style: none;
@@ -112,25 +113,24 @@ const Navbar = () => {
                     gap: 20px;
                     margin: 0;
                     padding: 0;
+                    transition: all 0.3s ease;
                 }
                 .nav-link {
                     text-decoration: none;
                     font-size: 1.2rem;
                     font-weight: 600;
-                    color:rgb(255, 255, 255);
+                    color: white;
                     padding: 10px 15px;
                     border-radius: 5px;
-                    transition: all 0.3s ease;
-                    white-space: nowrap;
+                    transition: all 0.3s;
                 }
                 .small-link {
-                    font-size: 1rem; /* Shrinks text when scrolling */
+                    font-size: 1rem;
                     padding: 5px 10px;
                 }
                 .nav-link:hover {
-                    color: #ffdd57; /* ✅ Only the text turns yellow */
+                    color: #ffdd57;
                 }
-                
                 .cart-link {
                     font-weight: bold;
                     background: gold;
@@ -144,18 +144,23 @@ const Navbar = () => {
                         display: block;
                     }
                     .nav-links {
-                        display: none;
-                        flex-direction: column;
-                        position: absolute;
-                        top: 60px;
+                        position: fixed;
+                        top: 0;
                         left: 0;
+                        height: 100vh;
                         width: 100%;
-                        background: rgba(5, 5, 5, 0.9);
-                        padding: 20px;
-                        box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.9;
-                    }
-                    .nav-links.open {
+                        background-color: rgba(0, 0, 0, 0.95);
                         display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 30px;
+                        transform: translateX(${menuOpen ? "0" : "-100%"});
+                        transition: transform 0.4s ease;
+                        z-index: 999;
+                    }
+                    .nav-link {
+                        font-size: 1.5rem;
                     }
                 }
             `}</style>

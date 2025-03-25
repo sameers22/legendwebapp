@@ -71,13 +71,42 @@ const Reservations = () => {
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true); // ✅ Set submission state to true
-
+    
         const firstName = reservation.name.split(" ")[0] || "Guest"; // Get first name or default to "Guest"
         setGreeting(`Thank you for your reservation, ${firstName}!`);
-
+    
+        // ✅ Send reservation details to backend
+        try {
+            const response = await fetch('http://localhost:5001/api/reserve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: reservation.name,
+                    email: reservation.email,
+                    reservationDetails: `
+                        Phone: ${reservation.phone}
+                        Date: ${reservation.date}
+                        Time: ${reservation.time}
+                        Guests: ${reservation.guests}
+                        Special Requests: ${reservation.specialRequest || "None"}
+                    `,
+                }),
+            });
+    
+            if (response.ok) {
+                console.log('Reservation details sent to the backend successfully.');
+            } else {
+                console.error('Failed to send reservation details to the backend.');
+            }
+        } catch (error) {
+            console.error('Error sending reservation details:', error);
+        }
+    
         // ✅ Reset form & greeting after 3 seconds
         setTimeout(() => {
             setSubmitted(false); // ✅ Reset submitted state
@@ -93,6 +122,7 @@ const Reservations = () => {
             setGreeting("Hello, welcome to Legend Cookhouse!"); // Reset greeting
         }, 3000);
     };
+    
 
     return (
         <div className="reservation-container">

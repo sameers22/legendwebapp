@@ -10,7 +10,7 @@ const Sauces = () => {
     useEffect(() => {
         const fetchSauces = async () => {
             try {
-                const response = await fetch("http://localhost:5001/api/shopify-products");
+                const response = await fetch("https://legendwebapp.onrender.com/api/shopify-products");
                 if (!response.ok) throw new Error("Failed to fetch products");
                 const data = await response.json();
                 setSauces(data.products || []);

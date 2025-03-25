@@ -6,6 +6,8 @@ const path = require("path");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const axios = require("axios");
+const nodemailer = require("nodemailer"); // ✅ Import Nodemailer
+
 
 puppeteer.use(StealthPlugin());
 
@@ -262,6 +264,42 @@ app.get("/api/scrape-videos", async (req, res) => {
        }
    });
    
+
+
+   // ✅ Nodemailer Configuration (New Addition)
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+    }
+});
+
+// ✅ Reservation Notification Route (New Addition)
+app.post("/api/reserve", async (req, res) => {
+    const { email, name, reservationDetails } = req.body;
+
+    if (!email || !name || !reservationDetails) {
+        return res.status(400).json({ error: "Please provide name, email, and reservation details." });
+    }
+
+    try {
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.NOTIFICATION_EMAIL,
+            subject: "New Table Reservation",
+            text: `New Reservation:\nName: ${name}\nEmail: ${email}\nDetails: ${reservationDetails}`
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: "Reservation successful and notification email sent!" });
+    } catch (error) {
+        console.error("❌ Error sending email:", error);
+        res.status(500).json({ error: "Failed to send reservation notification." });
+    }
+});
+
+
    /* ===============================
       Root Route & Server Startup
       =============================== */
