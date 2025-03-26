@@ -81,6 +81,17 @@ const Home = () => {
             return () => clearInterval(interval);
         }, []);
 
+        useEffect(() => {
+            const script = document.createElement('script');
+            script.src = "https://static.elfsight.com/platform/platform.js";
+            script.async = true;
+            document.body.appendChild(script);
+    
+            return () => {
+                document.body.removeChild(script);
+            };
+        }, []);
+
 
     return (
         <div className="home-page">
@@ -208,6 +219,7 @@ const Home = () => {
                 {/* Google Maps Embed */}
                 <div className="map-container">
                     <iframe 
+                        title="Legend Cookhouse Location"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d189.12291551076032!2d-73.80296798584818!3d40.67470380960766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2672388b8efd1%3A0x845e0126ebd0b8b!2sLegend%20Cookhouse!5e0!3m2!1sen!2sus!4v1741354079338!5m2!1sen!2sus"
                         width="100%" 
                         height="450" 
@@ -219,10 +231,9 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Customer Testimonials */}
+            {/* ✅ Add your Elfsight Widget */}
             <section className="testimonials">
-                {/* Customer Testimonials */}
-                <CustomerReviews />
+                <div class="elfsight-app-c2833e17-5821-465c-8820-7e3c3620ec01" data-elfsight-app-lazy></div>
             </section>
 
             {/* Social Media Section */}

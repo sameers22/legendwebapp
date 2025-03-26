@@ -74,10 +74,10 @@ const Reservations = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true); // ✅ Set submission state to true
-    
+        
         const firstName = reservation.name.split(" ")[0] || "Guest"; // Get first name or default to "Guest"
         setGreeting(`Thank you for your reservation, ${firstName}!`);
-    
+        
         // ✅ Send reservation details to backend
         try {
             const response = await fetch('http://localhost:5001/api/reserve', {
@@ -100,16 +100,19 @@ const Reservations = () => {
     
             if (response.ok) {
                 console.log('Reservation details sent to the backend successfully.');
+                setSubmitted(true); // ✅ Show the success message
             } else {
                 console.error('Failed to send reservation details to the backend.');
+                setSubmitted(false); // Make sure to reset submitted state on error
             }
         } catch (error) {
             console.error('Error sending reservation details:', error);
+            setSubmitted(false); // Make sure to reset submitted state on error
         }
     
-        // ✅ Reset form & greeting after 3 seconds
+        // ✅ Reset form & greeting after 5 seconds
         setTimeout(() => {
-            setSubmitted(false); // ✅ Reset submitted state
+            setSubmitted(false);
             setReservation({
                 name: '',
                 email: '',
@@ -119,9 +122,10 @@ const Reservations = () => {
                 guests: 1,
                 specialRequest: ''
             });
-            setGreeting("Hello, welcome to Legend Cookhouse!"); // Reset greeting
-        }, 3000);
+            setGreeting("Hello, welcome to Legend Cookhouse!");
+        }, 5000);
     };
+    
     
 
     return (
@@ -153,6 +157,13 @@ const Reservations = () => {
                         </select>
                         <textarea name="specialRequest" placeholder="Special Requests (optional)" value={reservation.specialRequest} onChange={handleChange} />
                         <button type="submit">Submit Reservation</button>
+
+                        {/* ✅ Display success message if the form was submitted */}
+                        {submitted && (
+                            <div style={{ color: 'green', marginTop: '15px', fontWeight: 'bold' }}>
+                                ✅ Your reservation has been successfully submitted!
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>

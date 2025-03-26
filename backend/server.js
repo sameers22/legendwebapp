@@ -6,7 +6,7 @@ const path = require("path");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const axios = require("axios");
-const nodemailer = require("nodemailer"); // ✅ Import Nodemailer
+const nodemailer = require('nodemailer');
 
 
 puppeteer.use(StealthPlugin());
@@ -138,6 +138,42 @@ app.get("/api/scrape-videos", async (req, res) => {
     }
 });
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
+
+// ✅ Email Route for Sending Reservation Details
+app.post('/api/reserve', async (req, res) => {
+    const { name, email, reservationDetails } = req.body;
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Legend Cookhouse Reservation Confirmation',
+        html: `
+            <h1>Reservation Confirmation</h1>
+            <p>Dear ${name},</p>
+            <p>Thank you for making a reservation at Legend Cookhouse. Here are your details:</p>
+            <pre>${reservationDetails}</pre>
+            <p>We look forward to serving you!</p>
+            <p>Best regards,<br>Legend Cookhouse Team</p>
+        `,
+    };
+
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully:', info.response);
+        res.status(200).json({ message: 'Reservation email sent successfully!' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ message: 'Failed to send reservation email.' });
+    }
+});
+
 /* ===============================
    Shopify Backend Setup
    =============================== */
@@ -264,42 +300,6 @@ app.get("/api/scrape-videos", async (req, res) => {
        }
    });
    
-
-
-   // ✅ Nodemailer Configuration (New Addition)
-const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-    }
-});
-
-// ✅ Reservation Notification Route (New Addition)
-app.post("/api/reserve", async (req, res) => {
-    const { email, name, reservationDetails } = req.body;
-
-    if (!email || !name || !reservationDetails) {
-        return res.status(400).json({ error: "Please provide name, email, and reservation details." });
-    }
-
-    try {
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: process.env.NOTIFICATION_EMAIL,
-            subject: "New Table Reservation",
-            text: `New Reservation:\nName: ${name}\nEmail: ${email}\nDetails: ${reservationDetails}`
-        };
-
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: "Reservation successful and notification email sent!" });
-    } catch (error) {
-        console.error("❌ Error sending email:", error);
-        res.status(500).json({ error: "Failed to send reservation notification." });
-    }
-});
-
-
    /* ===============================
       Root Route & Server Startup
       =============================== */
